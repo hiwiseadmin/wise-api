@@ -1,6 +1,6 @@
 # wiseadmin/wise-api
 
-> 为 ThinkPHP 6.1+ 提供的 API 快速开发工具包——开箱即用的限流、签名、JWT 鉴权、统一响应、字段过滤与分页包装、Debug 模式调试面板。
+> 为 ThinkPHP 6.0+ 或 8.0+ 提供的 API 快速开发工具包——开箱即用的限流、签名、JWT 鉴权、统一响应、字段过滤与分页包装、Debug 模式调试面板。
 
 [![PHP](https://img.shields.io/badge/PHP-%3E%3D8.1-blue)](https://www.php.net)
 [![ThinkPHP](https://img.shields.io/badge/ThinkPHP-%5E6.0%20%7C%7C%20%5E8.0-green)](https://www.thinkphp.cn)
