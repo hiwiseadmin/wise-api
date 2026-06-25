@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# wise-api
-=======
 # wiseadmin/wise-api
 
 > 为 ThinkPHP 6.1+ 提供的 API 快速开发工具包——开箱即用的限流、签名、JWT 鉴权、统一响应、字段过滤与分页包装、Debug 模式调试面板。
@@ -293,4 +290,3 @@ route/wise.php                 默认路由（debug 模式）
 ## License
 
 MIT
->>>>>>> 5b7ab63 (initiate)
