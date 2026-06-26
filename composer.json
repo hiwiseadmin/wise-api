@@ -1,6 +1,6 @@
 {
     "name": "wiseadmin/wise-api",
-    "description": "WiseAdmin API Toolkit - 为 ThinkPHP 提供的 API 快速开发工具包（限流/签名/JWT/统一响应/调试面板/API日志）",
+    "description": "WiseAdmin API 快速开发工具包 — 提供限流、签名验证、JWT 鉴权、统一响应格式、调试面板与 API 日志记录能力",
     "type": "library",
     "license": "MIT",
     "keywords": [
@@ -14,7 +14,7 @@
     ],
     "authors": [
         {
-            "name": "WiseAdmin",
+            "name": "WiseAdmin Team",
             "email": "wiseadmin@126.com"
         }
     ],
@@ -62,5 +62,19 @@
             },
             "migrate-path": "database/migrations"
         }
+    },
+    "homepage": "https://github.com/hiwiseadmin/wise-api",
+    "archive": {
+        "exclude": [
+            "/tests",
+            "/docs",
+            "/.github",
+            "/phpunit.xml",
+            "/.gitattributes",
+            "/.gitignore",
+            "/*.md",
+            "!/README.md",
+            "/qa/"
+        ]
     }
 }
