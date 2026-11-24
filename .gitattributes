@@ -1,0 +1,15 @@
+* text=auto
+
+*.php diff=php
+
+# 导出时排除
+/.gitattributes      export-ignore
+/.gitignore          export-ignore
+/CONTRIBUTING.md     export-ignore
+/.github/            export-ignore
+/tests/              export-ignore
+/phpunit.xml         export-ignore
+/phpunit.xml.dist    export-ignore
+
+# 本包特有：接口评审记录属于开发期资产，不进 dist
+/REVIEW.md           export-ignore
