@@ -1,0 +1,168 @@
+{extend name="__WISE_VIEW__/base" /}
+
+{block name="title"}接口日志详情{/block}
+
+{block name="content"}
+<body>
+    <div class="container p-4">
+        <!-- 基本信息 -->
+        <h6 class="border-bottom pb-2 mb-3">基本信息</h6>
+        <div class="row align-items-center">
+            <div class="col-3 p-2 text-end fw-bold">日志 ID</div>
+            <div class="col p-2" style="word-break: break-all;">{$apiLog.log_id|default=''}</div>
+        </div>
+        <div class="row align-items-center">
+            <div class="col-3 p-2 text-end fw-bold">请求 ID</div>
+            <div class="col p-2" style="word-break: break-all;">{$apiLog.request_id|default=''}</div>
+        </div>
+        <div class="row align-items-center">
+            <div class="col-3 p-2 text-end fw-bold">Trace ID</div>
+            <div class="col p-2" style="word-break: break-all;">{$apiLog.trace_id|default=''}</div>
+        </div>
+        <div class="row align-items-center">
+            <div class="col-3 p-2 text-end fw-bold">应用标识</div>
+            <div class="col p-2">{$apiLog.app_key|default=''}</div>
+        </div>
+        <div class="row align-items-center">
+            <div class="col-3 p-2 text-end fw-bold">日志通道</div>
+            <div class="col p-2">{$apiLog.channel|default=''}</div>
+        </div>
+
+        <!-- 请求信息 -->
+        <h6 class="border-bottom pb-2 mb-3 mt-4">请求信息</h6>
+        <div class="row align-items-center">
+            <div class="col-3 p-2 text-end fw-bold">接口路由</div>
+            <div class="col p-2"><code>{$apiLog.request_route|default=''}</code></div>
+        </div>
+        <div class="row align-items-center">
+            <div class="col-3 p-2 text-end fw-bold">请求 URL</div>
+            <div class="col p-2" style="word-break: break-all;"><code>{$apiLog.request_url|default=''}</code></div>
+        </div>
+        <div class="row align-items-center">
+            <div class="col-3 p-2 text-end fw-bold">请求方式</div>
+            <div class="col p-2">
+                {switch $apiLog.request_method|default=''}
+                    {case GET}<span class="badge bg-success">GET</span>{/case}
+                    {case POST}<span class="badge bg-primary">POST</span>{/case}
+                    {case PUT}<span class="badge bg-warning text-dark">PUT</span>{/case}
+                    {case PATCH}<span class="badge bg-info">PATCH</span>{/case}
+                    {case DELETE}<span class="badge bg-danger">DELETE</span>{/case}
+                    {default}{$apiLog.request_method}{/default}
+                {/switch}
+            </div>
+        </div>
+        <div class="row align-items-center">
+            <div class="col-3 p-2 text-end fw-bold">请求 IP</div>
+            <div class="col p-2">{$apiLog.request_ip|default=''}</div>
+        </div>
+        <div class="row align-items-center">
+            <div class="col-3 p-2 text-end fw-bold">用户 ID</div>
+            <div class="col p-2">{$apiLog.user_id|default=''}</div>
+        </div>
+        <div class="row align-items-center">
+            <div class="col-3 p-2 text-end fw-bold">用户代理</div>
+            <div class="col p-2" style="word-break: break-word; font-size: 0.85rem;">{$apiLog.user_agent|default=''}</div>
+        </div>
+        <div class="row align-items-top">
+            <div class="col-3 p-2 text-end fw-bold">请求头</div>
+            <div class="col p-2">
+                {if !empty($apiLog.request_headers)}
+                <pre class="bg-light p-2 rounded" style="max-height: 200px; overflow-y: auto; font-size: 0.85rem;">{:json_encode($apiLog.request_headers, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)}</pre>
+                {else}
+                <span class="text-muted">--</span>
+                {/if}
+            </div>
+        </div>
+        <div class="row align-items-top">
+            <div class="col-3 p-2 text-end fw-bold">查询参数</div>
+            <div class="col p-2">
+                {if !empty($apiLog.request_query)}
+                <pre class="bg-light p-2 rounded" style="max-height: 200px; overflow-y: auto; font-size: 0.85rem;">{:json_encode($apiLog.request_query, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)}</pre>
+                {else}
+                <span class="text-muted">--</span>
+                {/if}
+            </div>
+        </div>
+        <div class="row align-items-top">
+            <div class="col-3 p-2 text-end fw-bold">请求体</div>
+            <div class="col p-2">
+                {if !empty($apiLog.request_body)}
+                <pre class="bg-light p-2 rounded" style="max-height: 300px; overflow-y: auto; font-size: 0.85rem;">{:is_string($apiLog.request_body) ? $apiLog.request_body : json_encode($apiLog.request_body, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)}</pre>
+                {else}
+                <span class="text-muted">--</span>
+                {/if}
+            </div>
+        </div>
+
+        <!-- 响应信息 -->
+        <h6 class="border-bottom pb-2 mb-3 mt-4">响应信息</h6>
+        <div class="row align-items-center">
+            <div class="col-3 p-2 text-end fw-bold">响应状态码</div>
+            <div class="col p-2">
+                {php}$status = (int)($apiLog.response_status ?? 0);{/php}
+                {if $status >= 200 && $status < 300}
+                <span class="badge bg-success fs-6">{$status}</span>
+                {elseif $status >= 300 && $status < 400}
+                <span class="badge bg-info fs-6">{$status}</span>
+                {elseif $status >= 400 && $status < 500}
+                <span class="badge bg-warning text-dark fs-6">{$status}</span>
+                {elseif $status >= 500}
+                <span class="badge bg-danger fs-6">{$status}</span>
+                {else}
+                {$status}
+                {/if}
+            </div>
+        </div>
+        <div class="row align-items-top">
+            <div class="col-3 p-2 text-end fw-bold">响应头</div>
+            <div class="col p-2">
+                {if !empty($apiLog.response_headers)}
+                <pre class="bg-light p-2 rounded" style="max-height: 200px; overflow-y: auto; font-size: 0.85rem;">{:json_encode($apiLog.response_headers, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)}</pre>
+                {else}
+                <span class="text-muted">--</span>
+                {/if}
+            </div>
+        </div>
+        <div class="row align-items-top">
+            <div class="col-3 p-2 text-end fw-bold">响应数据</div>
+            <div class="col p-2">
+                {if !empty($apiLog.response_body)}
+                <pre class="bg-light p-2 rounded" style="max-height: 300px; overflow-y: auto; font-size: 0.85rem;">{:is_string($apiLog.response_body) ? $apiLog.response_body : json_encode($apiLog.response_body, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)}</pre>
+                {else}
+                <span class="text-muted">--</span>
+                {/if}
+            </div>
+        </div>
+
+        <!-- 性能信息 -->
+        <h6 class="border-bottom pb-2 mb-3 mt-4">性能信息</h6>
+        <div class="row align-items-center">
+            <div class="col-3 p-2 text-end fw-bold">耗时</div>
+            <div class="col p-2">
+                {php}$duration = (int)($apiLog.duration_ms ?? 0);{/php}
+                {if $duration > 3000}
+                <span class="text-danger fw-bold">{$duration} ms</span> <small class="text-danger">（慢请求）</small>
+                {elseif $duration > 1000}
+                <span class="text-warning fw-bold">{$duration} ms</span> <small class="text-warning">（较慢）</small>
+                {else}
+                <span class="text-success">{$duration} ms</span>
+                {/if}
+            </div>
+        </div>
+        <div class="row align-items-center">
+            <div class="col-3 p-2 text-end fw-bold">请求时间</div>
+            <div class="col p-2">{$apiLog.create_time|default=''}</div>
+        </div>
+
+        <!-- 扩展信息 -->
+        {if !empty($apiLog.extra)}
+        <h6 class="border-bottom pb-2 mb-3 mt-4">扩展信息</h6>
+        <div class="row align-items-top">
+            <div class="col-3 p-2 text-end fw-bold">扩展数据</div>
+            <div class="col p-2">
+                <pre class="bg-light p-2 rounded" style="max-height: 200px; overflow-y: auto; font-size: 0.85rem;">{:json_encode($apiLog.extra, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)}</pre>
+            </div>
+        </div>
+        {/if}
+    </div>
+{/block}
